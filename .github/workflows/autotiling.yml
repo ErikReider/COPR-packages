@@ -1,0 +1,24 @@
+name: autotiling
+
+on:
+  push:
+    paths:
+      - autotiling/**
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # build:
+  #   uses: ./.github/workflows/build-rpm.yml
+  #   with:
+  #     build-dir: autotiling
+  #     build-package: autotiling
+
+  upload:
+    # needs: build
+    uses: ./.github/workflows/upload.yml
+    with:
+      build-dir: autotiling
+      build-package: autotiling
+    secrets:
+      COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}

@@ -1,0 +1,39 @@
+name: Upload to COPR
+on:
+  workflow_call:
+    inputs:
+      build-dir:
+        required: true
+        type: string
+      build-package:
+        required: true
+        type: string
+    secrets:
+      COPR_CLI_CONFIG:
+        description: "COPR config"
+        required: true
+
+jobs:
+  copr:
+    name: copr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        run: |
+          pip3 install -I copr-cli
+      - name: Login
+        run: |
+          copr-cli --config <(echo "${COPR_CLI_CONFIG}") whoami
+        env:
+          COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}
+      - name: Build
+        id: build
+        run: |
+          copr-cli --config <(echo "${COPR_CLI_CONFIG}") buildscm --clone-url "https://github.com/${{github.repository}}" --commit "${{github.sha}}" --subdir "${BUILD_DIR}" --spec "${BUILD_PACKAGE}.spec" --type git --method rpkg "${BUILD_REPO}" | sed -u 's/^Created builds: /::set-output name=build_id::/g'
+        env:
+          # The whole 6 line COPR config
+          # Can be gotten from https://copr.fedorainfracloud.org/api/
+          COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}
+          BUILD_REPO: erikreider/packages
+          BUILD_DIR: ${{ inputs.build-dir }}
+          BUILD_PACKAGE: ${{ inputs.build-package }}
