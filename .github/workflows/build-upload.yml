@@ -1,0 +1,67 @@
+name: Build RPM And Upload to COPR
+on:
+  workflow_call:
+    inputs:
+      build-dir:
+        required: true
+        type: string
+      build-package:
+        required: true
+        type: string
+
+jobs:
+  build-upload:
+    name: build-upload
+    container: registry.fedoraproject.org/fedora-minimal:latest
+    runs-on: ubuntu-latest
+    steps:
+      # Build
+      - name: Install tooling for source RPM build
+        run: |
+          microdnf -y install --nodocs --setopt=install_weak_deps=0 \
+            rpkg copr-cli rpmdevtools 'dnf5-command(builddep)'
+
+      - name: Check out sources
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Download RPM Spec sources
+        run: |
+          cd ${{ inputs.build-dir }}
+          spectool -g ./${{ inputs.build-package }}.spec
+
+      - name: Install build dependencies
+        run: |
+          cd ${{ inputs.build-dir }}
+          microdnf -y builddep --nodocs --setopt=install_weak_deps=0 \
+            ./${{ inputs.build-package }}.spec
+
+      - name: Build RPM
+        run: |
+          cd ${{ inputs.build-dir }}
+          mkdir -p out
+          rpkg local --out `pwd`/out
+
+      - name: Install RPMs
+        run: |
+          cd ${{ inputs.build-dir }}
+          microdnf -y install ./out/*/*.rpm
+          rpm -q -l ${{ inputs.build-package }}
+
+      # Upload to COPR
+      - name: Install API token for copr-cli
+        if: github.event_name != 'pull_request'
+        env:
+          # The whole 6 line COPR config
+          # To generate a new token: https://copr.fedorainfracloud.org/api/.
+          COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}
+        run: |
+          mkdir -p "$HOME/.config"
+          echo "$COPR_CLI_CONFIG" >> "$HOME/.config/copr"
+
+      - name: Submit the build to copr
+        if: github.event_name != 'pull_request'
+        run: |
+          cd ${{ inputs.build-dir }}
+          rpkg copr-build -w "erikreider/packages"
