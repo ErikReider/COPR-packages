@@ -51,7 +51,7 @@ jobs:
 
       # Upload to COPR
       - name: Install API token for copr-cli
-        if: github.event_name != 'pull_request'
+        if: ${{!env.ACT && github.event_name != 'pull_request'}}
         env:
           # The whole 6 line COPR config
           # To generate a new token: https://copr.fedorainfracloud.org/api/.
@@ -61,7 +61,7 @@ jobs:
           echo "$COPR_CLI_CONFIG" >> "$HOME/.config/copr"
 
       - name: Submit the build to copr
-        if: github.event_name != 'pull_request'
+        if: ${{!env.ACT && github.event_name != 'pull_request'}}
         run: |
           cd ${{ inputs.build-dir }}
           rpkg copr-build -w "erikreider/packages"
