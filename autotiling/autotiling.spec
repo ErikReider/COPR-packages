@@ -10,6 +10,7 @@ BuildRequires:  python
 BuildRequires:  python3-devel
 BuildRequires:  python3-wheel
 BuildRequires:  python3-setuptools
+BuildRequires:  python3-pip
 Requires:       python
 Requires:       python3-i3ipc
 Requires:       bash
