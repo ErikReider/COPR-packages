@@ -8,14 +8,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build:
-  #   uses: ./.github/workflows/build-rpm.yml
-  #   with:
-  #     build-dir: autotiling
-  #     build-package: autotiling
+  build:
+    uses: ./.github/workflows/build-rpm.yml
+    with:
+      build-dir: autotiling
+      build-package: autotiling
 
   upload:
-    # needs: build
+    needs: build
     uses: ./.github/workflows/upload.yml
     with:
       build-dir: autotiling
