@@ -1,0 +1,21 @@
+name: rofi-emoji
+
+on:
+  push:
+    paths:
+      - rofi-emoji/**
+    branches: [main]
+  pull_request:
+    paths:
+      - rofi-emoji/**
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-upload.yml
+    with:
+      build-dir: ${{github.workflow}}
+      build-package: ${{github.workflow}}
+    secrets:
+      COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}

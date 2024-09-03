@@ -23,7 +23,9 @@ jobs:
       - name: Install tooling for source RPM build
         run: |
           microdnf -y install --nodocs --setopt=install_weak_deps=0 \
-            rpkg copr-cli rpmdevtools 'dnf5-command(builddep)'
+            rpkg copr-cli rpmdevtools 'dnf5-command(builddep)' 'dnf5-command(config-manager)' 'dnf5-command(copr)'
+          microdnf copr enable erikreider/packages -y
+          microdnf config-manager setopt "*erikreider:packages.priority=100"
 
       - name: Check out sources
         uses: actions/checkout@v3
