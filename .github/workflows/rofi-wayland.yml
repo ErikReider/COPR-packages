@@ -1,0 +1,24 @@
+env:
+  name: "rofi-wayland"
+
+name: ${{env.name}}
+
+on:
+  push:
+    paths:
+      - ${{env.name}}/**
+    branches: [main]
+  pull_request:
+    paths:
+      - ${{env.name}}/**
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-upload.yml
+    with:
+      build-dir: ${{env.name}}
+      build-package: ${{env.name}}
+    secrets:
+      COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}
