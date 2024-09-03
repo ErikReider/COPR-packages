@@ -1,16 +1,13 @@
-env:
-  name: "autotiling"
-
 name: autotiling
 
 on:
   push:
     paths:
-      - ${{env.name}}/**
+      - autotiling/**
     branches: [main]
   pull_request:
     paths:
-      - ${{env.name}}/**
+      - autotiling/**
     branches: [ main ]
   workflow_dispatch:
 
@@ -18,7 +15,7 @@ jobs:
   build:
     uses: ./.github/workflows/build-upload.yml
     with:
-      build-dir: ${{env.name}}
-      build-package: ${{env.name}}
+      build-dir: ${{github.workflow}}
+      build-package: ${{github.workflow}}
     secrets:
       COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}

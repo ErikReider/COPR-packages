@@ -8,6 +8,10 @@ on:
       build-package:
         required: true
         type: string
+    secrets:
+      COPR_CLI_CONFIG:
+        required: true
+        description: ''
 
 jobs:
   build-upload:
