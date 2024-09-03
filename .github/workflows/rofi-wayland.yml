@@ -1,7 +1,7 @@
 env:
   name: "rofi-wayland"
 
-name: ${{env.name}}
+name: rofi-wayland
 
 on:
   push:
