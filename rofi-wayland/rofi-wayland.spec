@@ -4,7 +4,7 @@
 %bcond devel  1
 
 Name:    rofi-wayland
-%global  base_ver 1.7.7
+%global  base_ver 1.7.8
 Version: %{base_ver}+wayland1
 Release: 1%{?dist}
 Summary: Fork of rofi with Wayland support
