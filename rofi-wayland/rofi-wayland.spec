@@ -4,7 +4,7 @@
 %bcond devel  1
 
 Name:    rofi-wayland
-%global  base_ver 1.7.8
+%global  base_ver 1.7.9
 Version: %{base_ver}+wayland1
 Release: 1%{?dist}
 Summary: Fork of rofi with Wayland support
@@ -161,6 +161,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/rofi*.desktop
 
 
 %changelog
+* Sun May 18 2025 Aleksei Bavshin <alebastr@fedoraproject.org> - 1.7.9+wayland1-1
+- Update to 1.7.9+wayland1
+
+* Mon Jan 20 2025 Aleksei Bavshin <alebastr@fedoraproject.org> - 1.7.8+wayland1-1
+- Update to 1.7.8+wayland1
+
+* Sat Jan 18 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.7+wayland1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
+
 * Sun Jan 05 2025 Aleksei Bavshin <alebastr@fedoraproject.org> - 1.7.7+wayland1-1
 - Update to 1.7.7+wayland1
 
@@ -190,4 +199,3 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/rofi*.desktop
 
 * Sat Aug 27 2022 Aleksei Bavshin <alebastr@fedoraproject.org> - 1.7.5+wayland1-1
 - Initial import (#2121653)
-
