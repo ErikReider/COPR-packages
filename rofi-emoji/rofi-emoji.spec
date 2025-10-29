@@ -1,5 +1,5 @@
 Name:    rofi-emoji
-Version: 4.0.0
+Version: 4.1.0
 Release: 1%{?dist}
 Summary: Emoji selector plugin for Rofi 
 
@@ -11,10 +11,9 @@ BuildRequires: autoconf
 BuildRequires: automake
 BuildRequires: libtool
 BuildRequires: meson
-BuildRequires: rofi-wayland
-# pkgbuild(rofi) uses system repo, not my package for some reason
-BuildRequires: rofi-wayland-devel
+BuildRequires: pkgconfig(rofi)
 
+Requires:      rofi
 requires:      wl-clipboard
 
 Provides:      rofi-emoji = %{version}
