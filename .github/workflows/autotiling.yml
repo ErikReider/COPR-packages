@@ -18,4 +18,5 @@ jobs:
       build-dir: ${{github.workflow}}
       build-package: ${{github.workflow}}
     secrets:
+      # To generate a new token: https://copr.fedorainfracloud.org/api/.
       COPR_CLI_CONFIG: ${{secrets.COPR_CLI_CONFIG}}
